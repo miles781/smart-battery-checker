@@ -13,6 +13,7 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
+import 'tailwindcss/tailwind.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -98,6 +99,14 @@ export default function Page() {
     }
   }, []);
 
+  const getBackground = (temp) => {
+    if (!temp && temp !== 0) return darkMode ? 'bg-gray-900' : 'bg-gray-50';
+    if (temp <= 15) return 'bg-gradient-to-r from-blue-400 to-blue-700';
+    if (temp <= 25) return 'bg-gradient-to-r from-green-300 to-yellow-300';
+    if (temp <= 35) return 'bg-gradient-to-r from-orange-300 to-orange-500';
+    return 'bg-gradient-to-r from-red-400 to-red-600';
+  };
+
   const chartData = {
     labels: trendData.map((_, i) => `${i + 1}h ago`),
     datasets: [
@@ -107,6 +116,7 @@ export default function Page() {
         fill: true,
         backgroundColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(59,130,246,0.2)',
         borderColor: darkMode ? '#fff' : 'rgba(59,130,246,1)',
+        tension: 0.4,
       },
     ],
   };
@@ -121,29 +131,29 @@ export default function Page() {
   };
 
   return (
-    <main className={`min-h-screen flex items-center justify-center p-6 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
-      <div className={`w-full max-w-md p-6 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'} border`}>
-        <h1 className="text-2xl font-bold text-center mb-4">🌤️ Smart Weather App</h1>
-        <p className="text-center mb-2">Location: {location}</p>
-        <p className="text-center mb-4">Time: {time}</p>
+    <main className={`min-h-screen flex items-center justify-center p-6 transition-colors duration-1000 ${getBackground(weather?.temperature)}`}>
+      <div className={`w-full max-w-md p-6 rounded-2xl shadow-2xl border border-opacity-30 ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-900'} transition-all duration-700`}>
+        <h1 className="text-3xl font-extrabold text-center mb-4">🌤️ Smart Weather App</h1>
+        <p className="text-center text-lg mb-2 font-semibold">Location: {location}</p>
+        <p className="text-center text-lg mb-4 font-medium">Time: {time}</p>
 
         {weather ? (
           <>
-            <p className="text-center mb-2 text-lg">Temperature: {weather.temperature}°C</p>
-            <p className="text-center mb-2 text-lg">Wind Speed: {weather.windspeed} km/h</p>
-            <p className="text-center mb-4 text-sm">{advice}</p>
+            <p className="text-center text-xl mb-2 font-bold">Temperature: {weather.temperature}°C</p>
+            <p className="text-center text-lg mb-2 font-medium">Wind Speed: {weather.windspeed} km/h</p>
+            <p className="text-center mb-4 text-sm font-medium">{advice}</p>
 
             <div className="mt-4">
               <Line data={chartData} options={chartOptions} />
             </div>
           </>
         ) : (
-          <p className="text-center mb-4">Loading weather data...</p>
+          <p className="text-center text-lg mb-4">Loading weather data...</p>
         )}
 
-        <div className="mt-4 text-center">
+        <div className="mt-6 flex justify-center">
           <button
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+            className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full font-semibold shadow-md transition-all duration-300"
             onClick={() => setDarkMode(!darkMode)}
           >
             Toggle {darkMode ? 'Light' : 'Dark'} Mode
@@ -153,5 +163,6 @@ export default function Page() {
     </main>
   );
 }
+
 
 
