@@ -1,0 +1,35 @@
+{
+  "name": "Smart Battery Checker",
+  "short_name": "Battery App",
+  "description": "Check your device battery percentage and status",
+  "start_url": "/", 
+  "id": "/?source=pwa", 
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile-1.png",
+      "type": "image/png",
+      "sizes": "540x720"
+    },
+    {
+      "src": "/screenshots/wide-1.png",
+      "type": "image/png",
+      "sizes": "1280x800",
+      "form_factor": "wide"
+    }
+  ]
+}
